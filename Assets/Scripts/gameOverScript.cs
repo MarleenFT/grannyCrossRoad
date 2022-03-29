@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class gameOverScript : MonoBehaviour
 {
@@ -38,11 +39,11 @@ public class gameOverScript : MonoBehaviour
 
     public void ExitToMenu()
     {
-        Application.LoadLevel("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void RestartGame()
     {
-        Application.LoadLevel("RoadSceneEasy");
+        SceneManager.LoadScene("RoadSceneEasy");
     }
 }

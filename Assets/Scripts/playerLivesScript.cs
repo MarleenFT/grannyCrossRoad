@@ -4,24 +4,34 @@ using UnityEngine;
 
 public class playerLivesScript : MonoBehaviour
 {
-    public float Health = 100f;
+    public float pHealth = 100f;
     public GameObject[] hearts;
+    public GameObject   healthBar;
 
+    #region privates
     private int Lives = 3;
+    private float Health = 0;
+    private const float cHealthBarWidth = 0.3f;
+    private const float cHealthBarLength = 3f;
+    private const float cHealthBarYPosition = 4.4f;
+    private const float cHealthBarXPosition = 8f;
+    #endregion
 
     private void Start()
     {
+        Health = pHealth;
+
         foreach(GameObject heart in hearts)
         {
             heart.gameObject.SetActive(true);
         }
 
         Lives = hearts.Length;
-        //Debug.Log("Hello: " + Lives);
+
+        updateHealthBar();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
+    private void OnCollisionStay2D(Collision2D collision) {
         objectHitScript obj = collision.gameObject.GetComponent<objectHitScript>();
 
         if (obj != null)
@@ -36,7 +46,7 @@ public class playerLivesScript : MonoBehaviour
             }
         }
 
-        //Whenever a living object (Like a woman) is hit, your lives go down
+        //Whenever a living object (Like a grandma) is hit, your lives go down
         if (obj.tag == "Living")
         {
             removeALife();
@@ -47,6 +57,13 @@ public class playerLivesScript : MonoBehaviour
         {
             //Destroy the player
             Destroy(obj.gameObject);
+        }
+        
+        updateHealthBar();
+
+        if (Health <= 0) {
+            removeALife();
+            Health = pHealth;
         }
     }
 
@@ -61,20 +78,21 @@ public class playerLivesScript : MonoBehaviour
         }
     }
 
-    public void addHealth(int pHealh)
+    public void addHealth(float pHealh)
     {
         Health += pHealh;
-        Debug.Log(Health);
+        Health = (Health > 100) ? 100 : Health;
     }
 
-    public void removeHealth(int pHealh)
+    public void removeHealth(float pHealh)
     {
         Health -= pHealh;
-        Debug.Log(Health);
+        Health = (Health < 0) ? 0 : Health;
+    }
 
-        if (Health <= 0)
-        {
-            Destroy(gameObject);
-        }
+    private void updateHealthBar() {
+        float transformer = (cHealthBarLength * (Health / 100f));
+        healthBar.transform.localScale = new Vector3(transformer, cHealthBarWidth, 0);
+        healthBar.transform.position = new Vector3(cHealthBarXPosition - ((cHealthBarLength - transformer) / 2), cHealthBarYPosition, -4);
     }
 }

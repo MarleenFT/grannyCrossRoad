@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerMovementScript : MonoBehaviour
 {
@@ -19,8 +20,6 @@ public class playerMovementScript : MonoBehaviour
 
     void OnDestroy()
     {
-        //Application.LoadLevel("RoadSceneEasy");
-        // Game Over.
         var gameOver = FindObjectOfType<gameOverScript>();
         if (gameOver != null)
         {

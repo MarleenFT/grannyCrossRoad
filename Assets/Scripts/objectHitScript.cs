@@ -5,5 +5,5 @@ using UnityEngine;
 public class objectHitScript : MonoBehaviour
 {
     public bool addsHealth = false;
-    public int Points = 1;
+    public float Points = 1f;
 }
